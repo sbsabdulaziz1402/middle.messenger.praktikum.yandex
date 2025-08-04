@@ -1,0 +1,49 @@
+@use '../pages/loginPage/loginStyle.scss' as login;
+@use '../pages/mainPage/mainPageStyle.scss' as mainPage;
+@use '../pages/profile/profileStyle.scss' as profile;
+@use '../pages/editProfile/editStyle.scss' as edit;
+@use '/src/styles/_variables.scss' as variables;
+
+
+body {
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  max-height: 100vh;
+  background: #ffffff;
+}
+
+.form {
+  &__button {
+    background-color: variables.$color-primary;
+    border-radius: 8px;
+    color: #ffffff;
+    height: 37px;
+    border: 0;
+    margin-top: 40px;
+  }
+
+  &__input, &__input:focus-visible {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    text-align: end;
+
+  }
+}
+
+.route-link {
+  color: variables.$color-primary;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 11px;
+}
+
+.error-code{
+  font-size: 40px;
+  font-weight: 500;
+}
+
+.error-title {
+  font-size: 20px;
+  font-weight: 500;
+}
