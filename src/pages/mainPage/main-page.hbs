@@ -1,0 +1,50 @@
+<main class="messenger-page">
+  <aside class="messenger-page__sidebar sidebar">
+    <div class="sidebar__header">
+      <a href="/profile" class="sidebar__profile-link">Профиль</a>
+      <input type="text" class="sidebar__search-input" placeholder="Поиск" name="search" />
+    </div>
+    <div>
+      <ul class="messenger-page__chats-list">
+        {{#each chats}}
+          <li class="messenger-page__chat-item chat-item">
+            <div class="chat-item__avatar"></div>
+            <div class="chat-item__context">
+              <span>{{this.name}}</span>
+              <span>{{this.last_message}} </span>
+            </div>
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+  </aside>
+
+  <section class="messenger-page__chat-content">
+    <header class="messenger-page__chat-header">
+      <h3 class="messenger-page__chat-title">{{activeChatTitle}}</h3>
+    </header>
+
+    <div class="messenger-page__messages">
+      {{#each messages}}
+        {{#if this.isOutgoing}}
+          <div class="messenger-page__message-outgoing">{{this.text}}</div>
+        {{else}}
+          <div class="messenger-page__message-incoming">{{this.text}}</div>
+        {{/if}}
+
+      {{/each}}
+    </div>
+
+    <form class="messenger-page__input-form message-input-form">
+      <div class="message-input-form__icon">
+        <img src="AttachFileRounded.svg" width="32" height="32" alt="files">
+      </div>
+      <div class="message-input-form__wrapper-input" >
+        <input class="message-input-form__input" name="message" type="text" placeholder="Сообщение" />
+      </div>
+      <button class="message-input-form__button" type="submit">
+        <span class="material-symbols-outlined">send</span>
+      </button>
+    </form>
+  </section>
+</main>

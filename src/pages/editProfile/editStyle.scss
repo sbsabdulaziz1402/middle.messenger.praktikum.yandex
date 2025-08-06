@@ -1,0 +1,91 @@
+@use '/src/styles/_variables.scss' as variables;
+.profile-content {
+    &__form {
+        max-width: 510px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 60px;
+    }
+
+    &__avatar {
+        &-title{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            margin: 0 auto;
+            width: 130px;
+            height: 130px !important;
+            border-radius: 50%;
+            background-color: #EFEFEF;
+            &:hover {
+                background-color: #e6e6e6;
+            }
+        }
+
+        input{
+            display: none;
+        }
+    }
+
+
+    &__icon {
+        height: 130px;
+        width: 130px;
+        border-radius: 50%;
+        background-color: #EFEFEF;
+    }
+    &__title {
+        font-size: 16px;
+        text-align: center;
+
+    }
+    &__info {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 510px;
+      width: 100%;
+    }
+
+    &__row {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #EAEAEA;
+        padding: 10px 0;
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+
+    &__label {
+        color: #333;
+    }
+    
+    &__value {
+        color: #999;
+    }
+
+    &__actions {
+      display: flex;
+      flex-direction: column;
+      margin-top: 20px;
+      gap: 10px;
+      width: 100%;
+      max-width: 510px;
+    }
+
+    &__link {
+        text-decoration: none;
+        &-edit {
+            color: variables.$color-primary;
+        }
+        &-password {
+            color: variables.$color-primary;
+        }
+        &-logout {
+            color: red;
+        }
+    }
+}
