@@ -14,17 +14,26 @@
             <input id="avatar" type="file" accept=".png, .jpeg, .jpg"/>
         </div>
         <div class="profile-content__form-body">
-            <div class="profile-content__row">
+            {{!-- <div class="profile-content__row">
                 <label class="profile-content__label" for="email">Почта</label>
                 <input class="form__input" type="email" id="email" name="email" value="pochta@yandex.ru" required />
-            </div>
+            </div> --}}
+            <div data-slot="emailInput"></div>
+            <div data-slot="firstNameInput"></div>
+            <div data-slot="secondNameInput"></div>
+            <div data-slot="displayNameInput"></div>
+            <div data-slot="phoneInput"></div>
+            <div data-slot="oldPasswordInput"></div>
+            <div data-slot="newPasswordInput"></div>
+            <div data-slot="reTypePasswordInput"></div>
 
-            <div class="profile-content__row">
+            {{!-- <div class="profile-content__row">
                 <label class="profile-content__label" for="login">Логин</label>
                 <input class="form__input" type="text" id="login" name="login" value="ivanivanov" required />
-            </div>
+            <div data-slot="loginInput"></div>
+            </div> --}}
 
-            <div class="profile-content__row">
+            {{!-- <div class="profile-content__row">
                 <label class="profile-content__label" for="first_name">Имя</label>
                 <input class="form__input" type="text" id="first_name" name="first_name" value="Иван" required />
             </div>
@@ -62,12 +71,9 @@
             <div class="profile-content__row">
                 <label class="profile-content__label" for="reTypePassword">Повторите новый пароль</label>
                 <input class="form__input" type="password" id="reTypePassword" name="reTypePassword" />
-            </div>
+            </div> --}}
         </div>
-        <button class="profile-content__button form__button" type="submit">
-            Сохранить изменения
-        </button>
+        <div data-slot="saveButton"></div>
     </form>
-
   </section>
 </main>
