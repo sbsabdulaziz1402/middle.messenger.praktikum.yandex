@@ -1,0 +1,26 @@
+.navigator {
+  padding: 20px;
+
+  &__title {
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+
+  &__list {
+    list-style: none;
+    padding: 0;
+  }
+
+  &__item {
+    margin-bottom: 8px;
+  }
+
+  &__link {
+    text-decoration: none;
+    color: #007aff;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

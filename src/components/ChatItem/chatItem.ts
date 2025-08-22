@@ -1,20 +1,19 @@
 import Block from "../../utils/Block";
-import template from "./button.hbs";
-import "./button.scss";
+import template from "./chatItem.hbs";
+import "./chatItem.scss";
 import Component from "../../utils/types";
 
-export default class Button extends Block {
+export default class ChatItem extends Block {
     constructor(props: Component) {
-        super("button", {
+        super("li", {
             disabled: false, 
             ...props
         });
-        this.addEvents();
-    }
+    };
 
     render() {
         return super.compile(template.toString(), this.props)
-    }
+    };
 
     protected addEvents() {
         if(!this.element) {
@@ -23,5 +22,5 @@ export default class Button extends Block {
         Object.entries(this.props.events || {}).forEach(([event, listener]) => {
             this.element?.addEventListener(event, listener);
         })
-    }
-}
+    };
+};

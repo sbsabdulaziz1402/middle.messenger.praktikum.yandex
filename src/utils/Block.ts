@@ -85,6 +85,7 @@ export default class Block {
     if (this._element && element) {
       this._element.replaceWith(element);
       this._element = element;
+      this.addEvents();
     }
   }
 
@@ -130,5 +131,9 @@ export default class Block {
         return true;
       }
     });
+  }
+
+  protected addEvents(): void {
+
   }
 }

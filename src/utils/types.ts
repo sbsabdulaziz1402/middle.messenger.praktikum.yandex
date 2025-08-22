@@ -1,11 +1,11 @@
+type Events = Record<string, (e: Event) => void>;
 export default interface ComponentProps {
     label?: string;
     type?: "button" | "submit" | "reset";
     className?: string;
     disabled?: boolean;
-    events?: {
-        click?: (e: MouseEvent) => void;
-    };
+    events?: Events;
+    icon?: string;
 }
 
 
@@ -19,8 +19,8 @@ export default interface InputProps {
     wrapperClassName?: string;
     labelClassName?: string;
     disabled?: boolean;
-    events?: {
-        click?: (e: MouseEvent) => void;
-    };
+    hasValidate?: boolean;
+    events?: Events;
+    errorMessage?: string;
 }
 

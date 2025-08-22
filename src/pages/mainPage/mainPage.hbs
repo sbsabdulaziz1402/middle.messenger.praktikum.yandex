@@ -6,15 +6,7 @@
     </div>
     <div>
       <ul class="messenger-page__chats-list">
-        {{#each chats}}
-          <li class="messenger-page__chat-item chat-item">
-            <div class="chat-item__avatar"></div>
-            <div class="chat-item__context">
-              <span>{{this.name}}</span>
-              <span>{{this.last_message}} </span>
-            </div>
-          </li>
-        {{/each}}
+        {{{chatsList}}}
       </ul>
     </div>
   </aside>
@@ -31,20 +23,18 @@
         {{else}}
           <div class="messenger-page__message-incoming">{{this.text}}</div>
         {{/if}}
-
       {{/each}}
     </div>
 
-    <form class="messenger-page__input-form message-input-form">
+    <form class="messenger-page__input-form message-input-form" id="chat-message-form">
       <div class="message-input-form__icon">
         <img src="AttachFileRounded.svg" width="32" height="32" alt="files">
       </div>
       <div class="message-input-form__wrapper-input" >
-        <input class="message-input-form__input" name="message" type="text" placeholder="Сообщение" />
+        <div data-slot="messageInput"></div>
       </div>
-      <button class="message-input-form__button" type="submit">
-        <span class="material-symbols-outlined">send</span>
-      </button>
+
+      <div data-slot="sendButton"></div>
     </form>
   </section>
 </main>

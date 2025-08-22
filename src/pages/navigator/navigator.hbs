@@ -1,0 +1,10 @@
+<nav class="navigator">
+  <h1 class="navigator__title">Навигатор по страницам</h1>
+  <ul class="navigator__list">
+    {{#each pages}}
+      <li class="navigator__item">
+        <a href="{{this.path}}" class="navigator__link">{{this.name}}</a>
+      </li>
+    {{/each}}
+  </ul>
+</nav>

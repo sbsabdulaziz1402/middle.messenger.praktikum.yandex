@@ -1,15 +1,17 @@
 import Handlebars from "handlebars";
-import Block from "./Block"; // твой базовый класс компонента
-
+import Block from "./Block";
+import { ErrorToast } from "./ErrorToast";
 export default class Page extends Block {
   private template: string;
   private context: Record<string, unknown>;
   private components: Record<string, Block> = {};
+  protected toast: ErrorToast;
 
   constructor(template: string, context: Record<string, unknown> = {}) {
     super('main')
     this.template = template;
     this.context = context;
+    this.toast = new ErrorToast();
   }
 
   protected initComponents(components: Record<string, Block>  = {}) {
@@ -21,14 +23,12 @@ export default class Page extends Block {
     }
   }
 
-  /** Регистрируем компонент под именем слота */
   register(slotName: string, component: Block) {
     if(slotName) {
         this.components[slotName] = component;
     }
   }
 
-  /** Рендерим HBS и монтируем компоненты в слоты */
   mount(rootSelector: string) {
     const root = document.querySelector(rootSelector);
     if (!root) throw new Error(`Root "${rootSelector}" not found`);
@@ -37,7 +37,6 @@ export default class Page extends Block {
     root.innerHTML = html;
 
     Object.entries(this.components).forEach(([slot, comp]) => {
-      // можно и по id, и по data-slot
       const target =
         root.querySelector<HTMLElement>(`[data-slot="${slot}"]`) ||
         root.querySelector<HTMLElement>(`#${slot}`);
@@ -47,14 +46,17 @@ export default class Page extends Block {
         return;
       }
 
-      // вставляем готовый корневой элемент компонента
       const content = comp.getContent()
+
       if(content){
           target.replaceWith(content);
       }
-      // если у Block есть метод для CDM — вызовем
-      // @ts-ignore – зависит от твоей реализации Block
+      
       comp.dispatchComponentDidMount?.();
     });
-  }
+  };
+
+  showError(message: string) {
+    this.toast.show({ message });
+  };
 }

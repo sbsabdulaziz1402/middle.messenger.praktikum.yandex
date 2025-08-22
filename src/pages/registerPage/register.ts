@@ -1,15 +1,16 @@
 import Page from "../../utils/Page";
-import template from "./editProfile.hbs";
+import template from "./register.hbs";
 import Block from "../../utils/Block";
 import Button from "../../components/Button/button";
 import Input from "../../components/Input/input";
 import { validateField } from "../../utils/validation";
-export default class EditProfilePage extends Page {
+
+export default class RegisterPage extends Page {
   private pageComponents: Record<string, Block> = {
-    saveButton: new Button({
-      label: "Сохранить",
+    logInButton: new Button({
+      label: "Зарегистрироваться",
       type: "submit",
-      className: "profile-content__button form__button",
+      className: " auth-page__button",
       events: {
         click: (e) => {
           e.preventDefault();
@@ -17,15 +18,15 @@ export default class EditProfilePage extends Page {
         },
       },
     }),
+
     emailInput: new Input({
       label: "Почта",
-      wrapperClassName: "profile-content__row",
-      labelClassName: "profile-content__label",
-      className: "form__input",
+      wrapperClassName: "auth-page__input-wrapper",
+      labelClassName: "auth-page__label",
+      className: "auth-page__input",
       name: "email",
       id: "email",
       inputType: "email",
-      value: "ivanivanov",
       events: {
         blur: (e) => {
           this.setValidate('emailInput', 'email', e);
@@ -35,13 +36,12 @@ export default class EditProfilePage extends Page {
 
     loginInput: new Input({
       label: "Логин",
-      wrapperClassName: "profile-content__row",
-      labelClassName: "profile-content__label",
-      className: "form__input",
+      wrapperClassName: "auth-page__input-wrapper",
+      labelClassName: "auth-page__label",
+      className: "auth-page__input",
       name: "login",
       id: "login",
       inputType: "text",
-      value: "ivanivanov",
       events: {
         blur: (e) => {
           this.setValidate('loginInput', 'login', e);
@@ -51,13 +51,12 @@ export default class EditProfilePage extends Page {
 
     firstNameInput: new Input({
       label: "Имя",
-      wrapperClassName: "profile-content__row",
-      labelClassName: "profile-content__label",
-      className: "form__input",
+      wrapperClassName: "auth-page__input-wrapper",
+      labelClassName: "auth-page__label",
+      className: "auth-page__input",
       name: "first_name",
       id: "first_name",
       inputType: "text",
-      value: "Иван",
       events: {
         blur: (e) => {
           this.setValidate('firstNameInput', 'first_name', e);
@@ -67,13 +66,12 @@ export default class EditProfilePage extends Page {
 
     secondNameInput: new Input({
       label: "Фамилия",
-      wrapperClassName: "profile-content__row",
-      labelClassName: "profile-content__label",
-      className: "form__input",
+      wrapperClassName: "auth-page__input-wrapper",
+      labelClassName: "auth-page__label",
+      className: "auth-page__input",
       name: "second_name",
       id: "second_name",
       inputType: "text",
-      value: "Иванов",
       events: {
         blur: (e) => {
           this.setValidate('secondNameInput', 'second_name', e);
@@ -81,26 +79,14 @@ export default class EditProfilePage extends Page {
       }
     }),
 
-    displayNameInput: new Input({
-      label: "Имя в чате",
-      wrapperClassName: "profile-content__row",
-      labelClassName: "profile-content__label",
-      className: "form__input",
-      name: "display_name",
-      id: "display_name",
-      inputType: "text",
-      value: "Иван"
-    }),
-
     phoneInput: new Input({
       label: "Телефон",
-      wrapperClassName: "profile-content__row",
-      labelClassName: "profile-content__label",
-      className: "form__input",
+      wrapperClassName: "auth-page__input-wrapper",
+      labelClassName: "auth-page__label",
+      className: "auth-page__input",
       name: "phone",
       id: "phone",
       inputType: "text",
-      value: "+7 (909) 967 30 30",
       events: {
         blur: (e) => {
           this.setValidate('phoneInput', 'phone', e);
@@ -108,64 +94,56 @@ export default class EditProfilePage extends Page {
       }
     }),
 
-    oldPasswordInput: new Input({
-      label: "Старый пароль",
-      wrapperClassName: "profile-content__row",
-      labelClassName: "profile-content__label",
-      className: "form__input",
-      name: "oldPassword",
-      id: "oldPassword",
-      inputType: "password",
-    }),
-
-    newPasswordInput: new Input({
+    passwordInput: new Input({
       label: "Новый пароль",
-      wrapperClassName: "profile-content__row",
-      labelClassName: "profile-content__label",
-      className: "form__input",
+      wrapperClassName: "auth-page__input-wrapper",
+      labelClassName: "auth-page__label",
+      className: "auth-page__input",
       name: "newPassword",
       id: "newPassword",
       inputType: "password",
       events: {
         blur: (e) => {
-          this.setValidate('newPasswordInput', 'password', e);
+          this.setValidate('passwordInput', 'password', e);
         }
       }
     }),
 
     reTypePasswordInput: new Input({
       label: "Повторите новый пароль",
-      wrapperClassName: "profile-content__row",
-      labelClassName: "profile-content__label",
-      className: "form__input",
+      wrapperClassName: "auth-page__input-wrapper",
+      labelClassName: "auth-page__label",
+      className: "auth-page__input",
       name: "reTypePassword",
       id: "reTypePassword",
       inputType: "password",
       events: {
         blur: (e) => {
-          this.setValidate('newPasswordInput', 'password', e);
+          this.setValidate('reTypePasswordInput', 'password', e);
         }
       }
-    }),
+    })
   };
+
   constructor() {
-    super(template.toString(), { title: "Редактировать профиль" });
+    super(template.toString(), { title: "Регистрация" });
     super.initComponents(this.pageComponents);
-  }
+  };
+
   getFormData() {
-    const form = document.getElementById('edit-profile-form') as HTMLFormElement;
+    const form = document.getElementById('register-form') as HTMLFormElement;
     if(form) {
       const formData = new FormData(form)
-      const values: Record<string, string> = {}
+      const values: Record<string, string> = {};
       formData.forEach((value, key) => {
-        values[key] = value.toString()
-        const errors = validateField(key, value.toString())
+        values[key] = value.toString();
+        const errors = validateField(key, value.toString());
         if (!errors.isValid) {
-            this.showError(errors.error)
+            this.showError(errors.error);
         } else {
-          console.log("Форма прошла валидацию ✅", values)
+          console.log("Форма прошла валидацию ✅", values);
         }
-    });
+      });
     }
   };
 
@@ -175,5 +153,5 @@ export default class EditProfilePage extends Page {
     if(!errorData.isValid) {
       this.showError(errorData.error);
     }
-  }
+  };
 }

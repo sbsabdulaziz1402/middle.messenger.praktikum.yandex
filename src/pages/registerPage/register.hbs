@@ -1,42 +1,15 @@
 <main class="auth-page">
-  <h1 class="auth-page__title">{{register_title}}</h1>
-  <form class="auth-page__form">
-    <label class="auth-page__label" for="email">
-      Почта:
-    </label>
-    <input class="auth-page__input" id="email" type="email" name="email" />
-    
-    <label class="auth-page__label" for="login">
-      Логин:
-    </label>
-    <input class="auth-page__input" id="login" type="text" name="login" required />
-
-    <label class="auth-page__label" for="first_name">
-      Имя:
-    </label>
-    <input class="auth-page__input" id="first_name" type="text" name="first_name" required />
-
-    <label class="auth-page__label" for="second_name">
-      Фамилия:
-    </label>
-    <input class="auth-page__input" id="second_name" type="text" name="second_name" required />
-
-    <label class="auth-page__label" for="phone">
-      Телефон:
-    </label>
-    <input class="auth-page__input" id="phone" type="number" name="phone" required />
-
-    <label class="auth-page__label" for="password">
-      Пароль:
-    </label>
-    <input class="auth-page__input" id="password" type="password" name="password" required />
-
-    <label class="auth-page__label" for="password-second">
-      Пароль (ещё раз):
-    </label>
-    <input class="auth-page__input" id="password-second" type="password" name="password-second" required />
-
-    <button class="auth-page__button" type="submit">Зарегистрироваться</button>
+  <h1 class="auth-page__title">Регистрация</h1>
+  <form class="auth-page__form" id="register-form">
+    <div data-slot="loginInput"></div>
+    <div data-slot="emailInput"></div>
+    <div data-slot="firstNameInput"></div>
+    <div data-slot="secondNameInput"></div>
+    <div data-slot="phoneInput"></div>
+    <div data-slot="phoneInput"></div>
+    <div data-slot="passwordInput"></div>
+    <div data-slot="reTypePasswordInput"></div>
+    <div data-slot="logInButton"></div>
   </form>
   <p class="auth-page__register">
     <a class="auth-page__register-link" href="/login">Войти</a>
