@@ -2,8 +2,9 @@ import Page from "../../utils/Page";
 import template from "./navigator.hbs";
 import './navigator.scss';
 const pages = [
+  { name: "Авторизация", path: "/login" },
+  { name: "Регистрация", path: "/register" },
   { name: "Главная", path: "/mainPage" },
-  { name: "Чаты", path: "/messenger" },
   { name: "Профиль", path: "/profile" },
   { name: "Изменить данные", path: "/editProfile" },
   { name: "Ошибка 404", path: "/404" },

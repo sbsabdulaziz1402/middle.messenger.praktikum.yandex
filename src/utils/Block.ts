@@ -1,86 +1,90 @@
-// Block.js
 import EventBus from "./eventBus";
 import Handlebars from "handlebars";
+
 type Props = Record<string, unknown>;
 
+interface BlockEvents {
+  [key: string]: unknown[];
+  init: [];
+  "flow:component-did-mount": [];
+  "flow:component-did-update": [Props, Props];
+  "flow:render": [];
+}
+
 export default class Block {
-  static EVENTS = {
-    INIT: "init",
-    FLOW_CDM: "flow:component-did-mount",
-    FLOW_CDU: "flow:component-did-update",
-    FLOW_RENDER: "flow:render"
+  static EVENTS: { [K in keyof BlockEvents]: K } = {
+    init: "init",
+    "flow:component-did-mount": "flow:component-did-mount",
+    "flow:component-did-update": "flow:component-did-update",
+    "flow:render": "flow:render",
   };
 
   protected _element: HTMLElement | null = null;
-  protected _meta: {tagName: string; props: Props} | null = null;
+  protected _meta: { tagName: string; props: Props } | null = null;
   public props: Props;
-  private _eventBus: EventBus;
+  private _eventBus: EventBus<BlockEvents>;
 
   constructor(tagName: string = "div", props: Props = {}) {
-    const eventBus = new EventBus();
+    const eventBus = new EventBus<BlockEvents>();
 
     this._meta = { tagName, props };
     this.props = this._makePropsProxy(props);
     this._eventBus = eventBus;
 
     this._registerEvents(eventBus);
-    eventBus.emit(Block.EVENTS.INIT);
+    eventBus.emit(Block.EVENTS.init);
   }
 
-  protected _registerEvents(eventBus: EventBus): void {
-    eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
-    eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
-    eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
-    eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
+  protected _registerEvents(eventBus: EventBus<BlockEvents>): void {
+    eventBus.on(Block.EVENTS.init, this.init.bind(this));
+    eventBus.on(Block.EVENTS["flow:component-did-mount"], this._componentDidMount.bind(this));
+    eventBus.on(Block.EVENTS["flow:component-did-update"], this._componentDidUpdate.bind(this));
+    eventBus.on(Block.EVENTS["flow:render"], this._render.bind(this));
   }
 
-  protected init():void {
+  protected init(): void {
     this._createResources();
-    this._eventBus.emit(Block.EVENTS.FLOW_RENDER);
+    this._eventBus.emit(Block.EVENTS["flow:render"]);
   }
 
   protected _createResources(): void {
-    if(this._meta) {
+    if (this._meta) {
       const { tagName } = this._meta;
       this._element = document.createElement(tagName);
     }
   }
 
-  _componentDidMount() {
+  private _componentDidMount(): void {
     this.componentDidMount();
   }
 
-  // Вызывается снаружи
-  dispatchComponentDidMount() {
-    this._eventBus.emit(Block.EVENTS.FLOW_CDM);
+  protected dispatchComponentDidMount(): void {
+    this._eventBus.emit(Block.EVENTS["flow:component-did-mount"]);
   }
 
-  componentDidMount() {}
+  protected componentDidMount(): void {}
 
-  protected _componentDidUpdate(...args: unknown[]): void {
-    const [oldProps, newProps] = args as [Props, Props]
+  protected _componentDidUpdate(oldProps: Props, newProps: Props): void {
     const shouldUpdate = this.componentDidUpdate(oldProps, newProps);
     if (shouldUpdate) {
-      this._eventBus.emit(Block.EVENTS.FLOW_RENDER);
+      this._eventBus.emit(Block.EVENTS["flow:render"]);
     }
   }
 
-  protected componentDidUpdate(oldProps: Props, newProps: Props) {
+  protected componentDidUpdate(oldProps: Props, newProps: Props): boolean {
     return true;
   }
 
-  setProps = (nextProps: Props) => {
-    if (!nextProps) {
-      return;
-    }
+  protected setProps(nextProps: Props): void {
+    if (!nextProps) return;
     Object.assign(this.props, nextProps);
-  };
+  }
 
-  get element() {
+  protected get element(): HTMLElement | null {
     return this._element;
   }
 
-  _render() {
+  private _render(): void {
     const element = this.render();
     if (this._element && element) {
       this._element.replaceWith(element);
@@ -89,26 +93,24 @@ export default class Block {
     }
   }
 
-  render(): HTMLElement {
+  protected render(): HTMLElement {
     const temp = document.createElement("template");
     temp.innerHTML = "";
     return temp.content.firstElementChild as HTMLElement;
   }
 
-  protected compile(template: string, context: Props) {
+  protected compile(template: string, context: Props): HTMLElement {
     const html = Handlebars.compile(template)(context);
-
     const temp = document.createElement("template");
     temp.innerHTML = html.trim();
-
     return temp.content.firstElementChild as HTMLElement;
   }
 
-  getContent() {
+  protected getContent(): HTMLElement | null {
     return this.element;
   }
 
-  _makePropsProxy(props: Props) {
+  private _makePropsProxy(props: Props): Props {
     const self = this;
 
     return new Proxy(props, {
@@ -119,7 +121,7 @@ export default class Block {
       set(target, prop, value) {
         const oldProps = { ...target };
         target[prop as keyof typeof target] = value;
-        self._eventBus.emit(Block.EVENTS.FLOW_CDU, oldProps, target);
+        self._eventBus.emit(Block.EVENTS["flow:component-did-update"], oldProps, target);
         return true;
       },
       deleteProperty(target, prop) {
@@ -127,13 +129,13 @@ export default class Block {
           throw new Error("нет доступа");
         }
         delete target[prop as keyof typeof target];
-        self._eventBus.emit(Block.EVENTS.FLOW_CDU, target, target);
+        self._eventBus.emit(Block.EVENTS["flow:component-did-update"], target, target);
         return true;
-      }
+      },
     });
   }
 
   protected addEvents(): void {
-
+    // реализуется в наследниках
   }
 }

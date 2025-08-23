@@ -3,7 +3,7 @@ import template from "./login.hbs";
 import Block from "../../utils/Block";
 import Button from "../../components/Button/button";
 import Input from "../../components/Input/input";
-import { validateForm, validateField } from "../../utils/validation";
+import { validateField } from "../../utils/validation";
 export default class LoginPage extends Page {
   private pageComponents: Record<string, Block> = {
     saveButton: new Button({
