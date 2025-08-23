@@ -58,20 +58,20 @@ export default class Block {
     this.componentDidMount();
   }
 
-  protected dispatchComponentDidMount(): void {
+  dispatchComponentDidMount(): void {
     this._eventBus.emit(Block.EVENTS["flow:component-did-mount"]);
   }
 
   protected componentDidMount(): void {}
 
-  protected _componentDidUpdate(oldProps: Props, newProps: Props): void {
-    const shouldUpdate = this.componentDidUpdate(oldProps, newProps);
+  protected _componentDidUpdate(): void {
+    const shouldUpdate = this.componentDidUpdate();
     if (shouldUpdate) {
       this._eventBus.emit(Block.EVENTS["flow:render"]);
     }
   }
 
-  protected componentDidUpdate(oldProps: Props, newProps: Props): boolean {
+  protected componentDidUpdate(): boolean {
     return true;
   }
 
@@ -106,7 +106,7 @@ export default class Block {
     return temp.content.firstElementChild as HTMLElement;
   }
 
-  protected getContent(): HTMLElement | null {
+  getContent(): HTMLElement | null {
     return this.element;
   }
 

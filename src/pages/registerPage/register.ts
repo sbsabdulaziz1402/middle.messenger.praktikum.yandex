@@ -29,7 +29,7 @@ export default class RegisterPage extends Page {
       inputType: "email",
       events: {
         blur: (e) => {
-          this.setValidate('emailInput', 'email', e);
+          this.setValidate('email', e);
         }
       }
     }),
@@ -44,7 +44,7 @@ export default class RegisterPage extends Page {
       inputType: "text",
       events: {
         blur: (e) => {
-          this.setValidate('loginInput', 'login', e);
+          this.setValidate('login', e);
         }
       }
     }),
@@ -59,7 +59,7 @@ export default class RegisterPage extends Page {
       inputType: "text",
       events: {
         blur: (e) => {
-          this.setValidate('firstNameInput', 'first_name', e);
+          this.setValidate('first_name', e);
         }
       }
     }),
@@ -74,7 +74,7 @@ export default class RegisterPage extends Page {
       inputType: "text",
       events: {
         blur: (e) => {
-          this.setValidate('secondNameInput', 'second_name', e);
+          this.setValidate('second_name', e);
         }
       }
     }),
@@ -89,7 +89,7 @@ export default class RegisterPage extends Page {
       inputType: "text",
       events: {
         blur: (e) => {
-          this.setValidate('phoneInput', 'phone', e);
+          this.setValidate('phone', e);
         }
       }
     }),
@@ -104,7 +104,7 @@ export default class RegisterPage extends Page {
       inputType: "password",
       events: {
         blur: (e) => {
-          this.setValidate('passwordInput', 'password', e);
+          this.setValidate('password', e);
         }
       }
     }),
@@ -119,7 +119,7 @@ export default class RegisterPage extends Page {
       inputType: "password",
       events: {
         blur: (e) => {
-          this.setValidate('reTypePasswordInput', 'password', e);
+          this.setValidate('password', e);
         }
       }
     })
@@ -147,7 +147,7 @@ export default class RegisterPage extends Page {
     }
   };
 
-  private setValidate(componenentName: string, inputName: string, event: Event): void {
+  private setValidate(inputName: string, event: Event): void {
     const target = event.target as HTMLInputElement;
     const errorData = validateField(inputName, target.value);
     if(!errorData.isValid) {

@@ -28,7 +28,7 @@ export default class LoginPage extends Page {
       inputType: "text",
       events: {
         blur: (e) => {
-          this.setValidate('loginInput', 'login', e);
+          this.setValidate('login', e);
         }
       }
     }),
@@ -43,7 +43,7 @@ export default class LoginPage extends Page {
       inputType: "password",
       events: {
         blur: (e) => {
-          this.setValidate('passwordInput', 'password', e);
+          this.setValidate('password', e);
         }
       }
     }),
@@ -71,7 +71,7 @@ export default class LoginPage extends Page {
     }
   };
 
-  private setValidate(componenentName: string, inputName: string, event: Event): void {
+  private setValidate(inputName: string, event: Event): void {
     const target = event.target as HTMLInputElement;
     const errorData = validateField(inputName, target.value);
     if(!errorData.isValid) {
