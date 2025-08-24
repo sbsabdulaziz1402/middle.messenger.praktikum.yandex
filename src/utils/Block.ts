@@ -94,6 +94,7 @@ export default class Block {
   }
 
   protected render(): HTMLElement {
+    this._removeEvents();
     const temp = document.createElement("template");
     temp.innerHTML = "";
     return temp.content.firstElementChild as HTMLElement;
@@ -137,5 +138,15 @@ export default class Block {
 
   protected addEvents(): void {
     // реализуется в наследниках
+  }
+
+  private _removeEvents() {
+    const { events = {} } = this.props as {
+      events?: Record<string, EventListener>;
+    };
+
+    Object.keys(events).forEach((eventName) => {
+      this._element?.removeEventListener(eventName, events[eventName]);
+    });
   }
 }
