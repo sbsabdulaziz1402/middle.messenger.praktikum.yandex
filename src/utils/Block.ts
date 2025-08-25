@@ -137,7 +137,19 @@ export default class Block {
   }
 
   protected addEvents(): void {
-    // реализуется в наследниках
+    const { events = {} } = this.props as {
+      events?: Record<string, EventListener>;
+    };
+    if (events.blur) {
+      const inputEl = this._element?.querySelector("input");
+      Object.keys(events).forEach((eventName) => {
+        inputEl?.addEventListener(eventName, events[eventName]);
+      });
+    } else {
+      Object.keys(events).forEach((eventName) => {
+        this._element?.addEventListener(eventName, events[eventName]);
+      });
+    }
   }
 
   private _removeEvents() {
