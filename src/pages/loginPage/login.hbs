@@ -1,16 +1,9 @@
 <main class="auth-page">
   <h1 class="auth-page__title">{{login_title}}</h1>
-  <form class="auth-page__form">
-    <label class="auth-page__label" for="login">
-      Логин:
-    </label>
-    <input class="auth-page__input" id="login" type="text" name="login" required />
-    <label class="auth-page__label" for="password">
-      Пароль:
-    </label>
-    <input class="auth-page__input" id="password" type="password" name="password" required />
-
-    <button class="auth-page__button" type="submit">Войти</button>
+  <form class="auth-page__form" id="log-in-form">
+    <div data-slot="loginInput"></div>
+    <div data-slot="passwordInput"></div>
+    <div data-slot="saveButton"></div>
   </form>
   <p class="auth-page__register">
     <a class="auth-page__register-link" href="/register">Нет аккаунта?</a>

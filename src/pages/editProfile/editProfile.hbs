@@ -6,7 +6,7 @@
   </aside>
 
   <section class="profile__content">
-    <form class="profile-content__form">
+    <form class="profile-content__form" id="edit-profile-form">
         <div class="profile-content__avatar">
             <label for="avatar" class="profile-content__avatar-title">
                 <img src="Avatar.svg" width="100" height="100" alt="Аватар">
@@ -14,60 +14,17 @@
             <input id="avatar" type="file" accept=".png, .jpeg, .jpg"/>
         </div>
         <div class="profile-content__form-body">
-            <div class="profile-content__row">
-                <label class="profile-content__label" for="email">Почта</label>
-                <input class="form__input" type="email" id="email" name="email" value="pochta@yandex.ru" required />
-            </div>
-
-            <div class="profile-content__row">
-                <label class="profile-content__label" for="login">Логин</label>
-                <input class="form__input" type="text" id="login" name="login" value="ivanivanov" required />
-            </div>
-
-            <div class="profile-content__row">
-                <label class="profile-content__label" for="first_name">Имя</label>
-                <input class="form__input" type="text" id="first_name" name="first_name" value="Иван" required />
-            </div>
-
-            <div class="profile-content__row">
-                <label class="profile-content__label" for="second_name">Фамилия</label>
-                <input class="form__input" type="text" id="second_name" name="second_name" value="Иванов" required />
-            </div>
-
-            <div class="profile-content__row">
-                <label class="profile-content__label" for="display_name">Имя в чате</label>
-                <input class="form__input" type="text" id="display_name" name="display_name" value="Иван" required />
-            </div>
-
-            <div class="profile-content__row">
-                <label class="profile-content__label" for="phone">Телефон</label>
-                <input class="form__input" type="tel" id="phone" name="phone" value="+7 (909) 967 30 30" required />
-            </div>
-
-            <div class="profile-content__row">
-                <label class="profile-content__label" for="display_name">Имя в чате</label>
-                <input class="form__input" type="text" id="display_name" name="display_name" value="Иван" required />
-            </div>
-
-            <div class="profile-content__row">
-                <label class="profile-content__label" for="oldPassword">Старый пароль</label>
-                <input class="form__input" type="password" id="oldPassword" name="oldPassword" />
-            </div>
-
-            <div class="profile-content__row">
-                <label class="profile-content__label" for="newPassword">Новый пароль</label>
-                <input class="form__input" type="password" id="newPassword" name="newPassword" />
-            </div>
-
-            <div class="profile-content__row">
-                <label class="profile-content__label" for="reTypePassword">Повторите новый пароль</label>
-                <input class="form__input" type="password" id="reTypePassword" name="reTypePassword" />
-            </div>
+            <div data-slot="loginInput"></div>
+            <div data-slot="emailInput"></div>
+            <div data-slot="firstNameInput"></div>
+            <div data-slot="secondNameInput"></div>
+            <div data-slot="displayNameInput"></div>
+            <div data-slot="phoneInput"></div>
+            <div data-slot="oldPasswordInput"></div>
+            <div data-slot="newPasswordInput"></div>
+            <div data-slot="reTypePasswordInput"></div>
         </div>
-        <button class="profile-content__button form__button" type="submit">
-            Сохранить изменения
-        </button>
+        <div data-slot="saveButton"></div>
     </form>
-
   </section>
 </main>
