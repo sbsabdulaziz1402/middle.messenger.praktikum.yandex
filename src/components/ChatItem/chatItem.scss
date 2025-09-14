@@ -6,9 +6,17 @@
     display: flex;
     gap: 10px;
     cursor: pointer;
-
+    &__wrapper {
+      &__active {
+        background-color: #e6f0ff;
+        border: none;
+      }
+    }
     &:hover {
       background: #e6e6e6;
+    }
+
+    &__active {
     }
 
     &__avatar {
@@ -16,5 +24,14 @@
         width: 47px;
         border-radius: 50%;
         background-color:  variables.$color-gray-bg;
+    }
+    &__context {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    &__last{
+      font-size: 11px;
+      color: #5a5d62;
     }
 }

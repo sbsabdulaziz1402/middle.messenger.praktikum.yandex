@@ -1,29 +1,31 @@
 <main class="messenger-page">
   <aside class="messenger-page__sidebar sidebar">
     <div class="sidebar__header">
-      <a href="/profile" class="sidebar__profile-link">Профиль</a>
+      <div data-slot="profileButton"></div>
       <input type="text" class="sidebar__search-input" placeholder="Поиск" name="search" />
     </div>
     <div>
+      <div id="AddChatComponent"></div>
+      <div data-slot="addChatButton"></div>
       <ul class="messenger-page__chats-list">
-        {{{chatsList}}}
+        <div data-slot="chatList"></div>
       </ul>
+      <form class="messenger-page_add-chat-form" id="add-chat-form">
+        <div data-slot="addChatInput"></div>
+        <div data-slot="addChatButton"></div>
+      </form>
     </div>
   </aside>
 
   <section class="messenger-page__chat-content">
-    <header class="messenger-page__chat-header">
-      <h3 class="messenger-page__chat-title">{{activeChatTitle}}</h3>
-    </header>
+
+    <div data-slot="chatheader"></div>
+    <div data-slot="chatUsersModal"></div>
+    <div data-slot="addChatUserModal"></div>
+
 
     <div class="messenger-page__messages">
-      {{#each messages}}
-        {{#if this.isOutgoing}}
-          <div class="messenger-page__message-outgoing">{{this.text}}</div>
-        {{else}}
-          <div class="messenger-page__message-incoming">{{this.text}}</div>
-        {{/if}}
-      {{/each}}
+      <div data-slot="messageList"></div>
     </div>
 
     <form class="messenger-page__input-form message-input-form" id="chat-message-form">

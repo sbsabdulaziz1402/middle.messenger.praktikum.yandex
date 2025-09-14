@@ -3,6 +3,7 @@ type HTTPMethod = "GET" | "PUT" | "POST" | "DELETE";
 interface RequestOptions {
   method?: HTTPMethod;
   data?: Record<string, any> | FormData;
+  credentials?: string,
   headers?: Record<string, string>;
   timeout?: number;
 }
@@ -38,7 +39,7 @@ class HTTPTransport {
       : "";
     return this.request<T>(
       url + query,
-      { ...options, method: METHODS.GET },
+      { ...options, method: METHODS.GET, credentials: 'include' },
       options.timeout
     );
   }
@@ -69,7 +70,7 @@ class HTTPTransport {
 
   request<T = unknown>(
     url: string,
-    options: RequestOptions = {},
+    options: RequestOptions,
     timeout = 5000
   ): Promise<T> {
     const { method, data, headers = {} } = options;
@@ -82,6 +83,7 @@ class HTTPTransport {
 
       const xhr = new XMLHttpRequest();
       xhr.open(method, url);
+      xhr.withCredentials = true;
 
       Object.entries(headers).forEach(([key, value]) => {
         xhr.setRequestHeader(String(key), String(value));

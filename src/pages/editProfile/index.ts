@@ -4,6 +4,8 @@ import Block from "../../utils/Block";
 import Button from "../../components/Button/button";
 import Input from "../../components/Input/input";
 import { validateField } from "../../utils/validation";
+import { updateProfile, updatePassword, updateAvatar } from "./api";
+
 export default class EditProfilePage extends Page {
   private pageComponents: Record<string, Block> = {
     saveButton: new Button({
@@ -25,7 +27,7 @@ export default class EditProfilePage extends Page {
       name: "email",
       id: "email",
       inputType: "email",
-      value: "ivanivanov",
+      value: this.user?.email,
       events: {
         blur: (e) => {
           this.setValidate('email', e);
@@ -41,7 +43,7 @@ export default class EditProfilePage extends Page {
       name: "login",
       id: "login",
       inputType: "text",
-      value: "ivanivanov",
+      value: this.user?.login,
       events: {
         blur: (e) => {
           this.setValidate('login', e);
@@ -57,7 +59,7 @@ export default class EditProfilePage extends Page {
       name: "first_name",
       id: "first_name",
       inputType: "text",
-      value: "Иван",
+      value: this.user?.first_name,
       events: {
         blur: (e) => {
           this.setValidate('first_name', e);
@@ -73,7 +75,7 @@ export default class EditProfilePage extends Page {
       name: "second_name",
       id: "second_name",
       inputType: "text",
-      value: "Иванов",
+      value: this.user?.second_name,
       events: {
         blur: (e) => {
           this.setValidate('second_name', e);
@@ -89,7 +91,7 @@ export default class EditProfilePage extends Page {
       name: "display_name",
       id: "display_name",
       inputType: "text",
-      value: "Иван"
+      value: this.user?.display_name,
     }),
 
     phoneInput: new Input({
@@ -100,7 +102,7 @@ export default class EditProfilePage extends Page {
       name: "phone",
       id: "phone",
       inputType: "text",
-      value: "+7 (909) 967 30 30",
+      value: this.user?.phone,
       events: {
         blur: (e) => {
           this.setValidate('phone', e);
@@ -116,6 +118,11 @@ export default class EditProfilePage extends Page {
       name: "oldPassword",
       id: "oldPassword",
       inputType: "password",
+      events: {
+        blur: (e) => {
+          this.setValidate('password', e);
+        }
+      }
     }),
 
     newPasswordInput: new Input({
@@ -133,23 +140,38 @@ export default class EditProfilePage extends Page {
       }
     }),
 
-    reTypePasswordInput: new Input({
-      label: "Повторите новый пароль",
-      wrapperClassName: "profile-content__row",
-      labelClassName: "profile-content__label",
-      className: "form__input",
-      name: "reTypePassword",
-      id: "reTypePassword",
-      inputType: "password",
+    avatarInput: new Input({
+      name: "Avatar",
+      id: "avatar",
+      accept:".png, .jpeg, .jpg",
+      inputType: "file",
+      value: this.user?.avatar,
       events: {
-        blur: (e) => {
-          this.setValidate('password', e);
+        change: async () => {
+          const avatarInput = document.getElementById("avatar") as HTMLInputElement;
+          if (avatarInput?.files?.[0]) {
+            const avatarFormData = new FormData();
+            avatarFormData.append("avatar", avatarInput.files[0]);
+            updateAvatar(avatarFormData);
+          }
         }
       }
     }),
+
+    returnButton: new Button({
+      icon: 'leftArrow.svg',
+      className: "profile__sidebar-icon",
+      events: {
+          click: () => {
+            this.nextLink('/profile')
+          },
+      },
+    }),
+
   };
   constructor() {
-    super(template.toString(), { title: "Редактировать профиль" });
+    const user = JSON.parse(window.localStorage.getItem('userData') || "{}")
+    super(template.toString(), { title: "Редактировать профиль", ...user, avatar: 'https://ya-praktikum.tech/api/v2/resources'+user.avatar});
     super.initComponents(this.pageComponents);
   }
   getFormData() {
@@ -157,15 +179,22 @@ export default class EditProfilePage extends Page {
     if(form) {
       const formData = new FormData(form)
       const values: Record<string, string> = {}
+      const errorsList = []
       formData.forEach((value, key) => {
         values[key] = value.toString()
+        if(key === 'oldPassword'&&values[key].length==0 || key === 'newPassword'&&values[key].length==0) {
+          return
+        }
         const errors = validateField(key, value.toString())
         if (!errors.isValid) {
             this.showError(errors.error)
-        } else {
-          console.log("Форма прошла валидацию ✅", values)
+            errorsList.push(errors.error)
         }
-    });
+      });
+
+      if(!errorsList.length) {
+        this.saveChages(values)
+      }
     }
   };
 
@@ -176,4 +205,28 @@ export default class EditProfilePage extends Page {
       this.showError(errorData.error);
     }
   }
+
+  private async saveChages(values : Record<string, string>) {
+    try {
+      await updateProfile({
+        email: values.email,
+        login: values.login,
+        first_name: values.first_name,
+        second_name: values.second_name,
+        display_name: values.display_name,
+        phone: values.phone,
+      });
+
+      if (values.oldPassword && values.newPassword) {
+        await updatePassword({
+          oldPassword: values.oldPassword,
+          newPassword: values.newPassword,
+        });
+      }
+
+    } catch (e) {
+      console.error("Ошибка при обновлении профиля:", e);
+    }
+  }
+
 }

@@ -1,10 +1,10 @@
 import Block from "../../utils/Block";
 import template from "./button.hbs";
 import "./button.scss";
-import Component from "../../utils/types";
+import type { ComponentProps } from "../../utils/types";
 
 export default class Button extends Block {
-    constructor(props: Component) {
+    constructor(props: ComponentProps) {
         super("button", {
             disabled: false, 
             ...props

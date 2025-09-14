@@ -10,30 +10,21 @@ import EditProfilePage from './pages/editProfile/index';
 import Error404Page from './pages/page_404/index';
 import Page500 from './pages/page_500/index';
 import NavigatorPage from './pages/navigator/index';
+import Router from './utils/Router';
 
-type RouteKey = keyof typeof routes;
+
+const routerCore = new Router('#app')
 
 
-const routes = {
-  login: LoginPage,
-  register: RegisterPage,
-  mainPage: MainPage,
-  profile: ProfilePage,
-  editProfile: EditProfilePage,
-  '404': Error404Page,
-  '500': Page500,
-  navigator: NavigatorPage
-};
 
-document.addEventListener('DOMContentLoaded', () => {
-  let page = window.location.pathname.replace('.html', '').replace('/', '');
-  if (page === '') page = 'navigator';
+routerCore
+  .use('/', NavigatorPage)
+  .use('/login', LoginPage)
+  .use('/register', RegisterPage)
+  .use('/mainPage', MainPage)
+  .use('/profile', ProfilePage)
+  .use('/editProfile', EditProfilePage)
+  .use('/404', Error404Page)
+  .use('/500', Page500);
 
-  if (page in routes) {
-    const PageClass = routes[page as RouteKey];
-    const pageInstance = new PageClass();
-    pageInstance.mount('#app');
-  } else {
-    console.error(`Страница ${page} не найдена`);
-  }
-});
+routerCore.start();

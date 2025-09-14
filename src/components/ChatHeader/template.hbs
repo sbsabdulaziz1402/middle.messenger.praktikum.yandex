@@ -1,0 +1,19 @@
+<div class="chat-header">
+    <div class="chat-header__title">
+        <span>
+            {{chatTitle}}
+        </span>
+    </div>
+    {{#if chatTitle}}
+    <div class="chat-header__settings">
+      <button class="chat-header__button" id="chatSettingsBtn" type="button">
+        <img src="/chat-setting.svg" alt="Setting" />
+      </button>
+      <ul class="chat-header__dropdown hidden" id="chatSettingDropdown">
+        <li data-action="users">👥 Участники</li>
+        <li data-action="add">➕ Добавить пользователя</li>
+        <li data-action="remove">🗑 Удалить чат</li>
+      </ul>
+    </div>
+    {{/if}}
+</div>
