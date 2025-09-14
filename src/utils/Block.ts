@@ -164,7 +164,7 @@ export default class Block<P extends Props = {}> {
       });
     }
   }
-  protected leave() {
+  public leave() {
     this._element?.remove();
   }
 

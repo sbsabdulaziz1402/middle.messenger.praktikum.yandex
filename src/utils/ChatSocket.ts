@@ -1,5 +1,7 @@
-import type { UserData } from "./types";
-import type { MessageData } from "../utils/types";
+import type { UserData, MessageData } from "./types";
+
+type SendMessage = { content: string; type: string };
+
 export class ChatSocket {
   private socket: WebSocket | null = null;
   private user_data: UserData;
@@ -7,7 +9,7 @@ export class ChatSocket {
   constructor(
     private chatId: number,
     private token: string,
-    private onMessage: (data: any) => void
+    private onMessage: (data: MessageData | MessageData[]) => void
   ) {
     const userDataStr = window.localStorage.getItem('userData');
     if (userDataStr) {
@@ -46,7 +48,7 @@ export class ChatSocket {
     });
   }
 
-  send(message: any) {
+  send(message: SendMessage) {
     this.socket?.send(JSON.stringify(message));
   }
 

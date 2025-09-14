@@ -1,6 +1,6 @@
-import Block from "../utils/Block";
+import Page from "../utils/Page";
 
-type BlockClass = new (tagName?: string, props?: any) => Block;
+type BlockClass = new (tagName?: string, props?: any) => Page;
 interface IRouteOptions {
     rootQuery: string;
 }
@@ -8,7 +8,7 @@ interface IRouteOptions {
 class Route {
     private _pathname: string;
     private _blockClass: BlockClass;
-    private _block: any | null = null;
+    private _block: Page | null = null;;
     private _rootQuery: string;
 
     constructor(pathname: string, view: BlockClass, options: IRouteOptions) {
@@ -37,7 +37,7 @@ class Route {
     public render(): void {
         if (!this._block) {
             this._block = new this._blockClass();
-            this._block.init();
+            this._block.mount();
         }
         const root = document.querySelector(this._rootQuery);
         if (!root) {
