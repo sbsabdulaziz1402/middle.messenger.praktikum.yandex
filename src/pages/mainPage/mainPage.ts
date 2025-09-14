@@ -27,6 +27,10 @@ export default class MainPage extends Page {
         click: (e) => {
           e.preventDefault();
           this.getFormData();
+          const input = document.getElementById('message') as HTMLInputElement;
+          if (input) {
+            input.value = '';
+          }
         },
       },
     }),
@@ -163,7 +167,7 @@ export default class MainPage extends Page {
         if (Array.isArray(data)) {
           messages = data.reverse(); 
           this.pageComponents.messageList.setProps({messages})
-        } else if(data.type == 'message') {
+        } else if((data as { type?: string }).type === 'message') {
           this.pageComponents.messageList.setProps({messages})
         }
         this.setProps({ messages });
