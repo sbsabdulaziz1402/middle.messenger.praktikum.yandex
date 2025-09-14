@@ -10,7 +10,7 @@ interface AddChatUserModalProps {
   chatId?: number | null;
   visible?: boolean;
   onClose?: () => void;
-  children?: { [key: string]: Block<any> };
+  children?: { [key: string]: Block };
   [key: string]: unknown;
 }
 

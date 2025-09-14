@@ -9,7 +9,7 @@ export default class ProfilePage extends Page {
           className: "profile-content__link profile-content__link-edit",
           events: {
             click: () => {
-              this.nextLink('/editProfile')
+              this.nextLink('/settings')
             } 
           },
       }),
@@ -25,14 +25,14 @@ export default class ProfilePage extends Page {
         className: "profile__sidebar-icon",
         events: {
             click: () => {
-              this.nextLink('/mainPage')
+              this.nextLink('/messenger')
             },
         },
       }),
   };
   constructor() {
     const user = JSON.parse(window.localStorage.getItem('userData') || "{}")
-    super(template.toString(), {title: "Профиль", ...user});
+    super(template.toString(), {title: "Профиль", ...user, avatar: 'https://ya-praktikum.tech/api/v2/resources'+user.avatar});
     super.initComponents(this.pageComponents);
   };
 
@@ -40,6 +40,6 @@ export default class ProfilePage extends Page {
     const $api = new HTTPTransport ();
     await $api.post("https://ya-praktikum.tech/api/v2/auth/logout");
     window.localStorage.removeItem('userData')
-    this.nextLink('/login')
+    this.nextLink('/')
   }
 };

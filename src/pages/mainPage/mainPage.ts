@@ -5,7 +5,7 @@ import Input from "../../components/Input/input";
 import ChatList from "../../components/ChatList";
 import { validateField } from "../../utils/validation";
 import { getChatsListApi, createChatApi, getChatToken, removeUserChatApi, getChatUsersApi, deleteChatApi } from "./mainPage.api";
-import type { ChatData, ChatUsersModalProps } from "../../utils/types";
+import type { ChatData, ChatUsersModalProps, MessageData } from "../../utils/types";
 import { AddChatModal } from "../../components/Modal";
 import { ChatSocket } from "../../utils/ChatSocket";
 import MessageList from "../../components/MessageList";
@@ -159,7 +159,7 @@ export default class MainPage extends Page {
       id,
       token,
       (data) => {
-        let messages: any[] = [];
+        let messages: MessageData[] = [];
         if (Array.isArray(data)) {
           messages = data.reverse(); 
           this.pageComponents.messageList.setProps({messages})

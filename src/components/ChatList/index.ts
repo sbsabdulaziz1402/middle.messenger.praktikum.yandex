@@ -53,7 +53,7 @@ export default class ChatList extends Block<ChatListsProps> {
     </div>`
     const element = this.compile(template, this.props);
     chatItems.forEach((item)=>{
-      const id = (item.props as any).id;
+      const id = (item.props as ChatData).id;
       const placeholder = element.querySelector(`[data-id="chat-${id}"]`);
       if (placeholder) {
         placeholder.replaceWith(item.getContent()!)
