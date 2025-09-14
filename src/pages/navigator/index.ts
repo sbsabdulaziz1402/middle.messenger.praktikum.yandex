@@ -4,20 +4,6 @@ import template from "./navigator.hbs";
 import "./navigator.scss";
 import Block from "../../utils/Block";
 
-type PageLink = {
-  name: string;
-  path: string;
-};
-
-const pages: PageLink[] = [
-  { name: "Авторизация", path: "/login" },
-  { name: "Регистрация", path: "/register" },
-  { name: "Главная", path: "/mainPage" },
-  { name: "Профиль", path: "/profile" },
-  { name: "Изменить данные", path: "/editProfile" },
-  { name: "Ошибка 404", path: "/404" },
-  { name: "Ошибка 500", path: "/500" },
-];
 
 export default class NavigatorPage extends Page {
   private pageComponents: Record<string, Block> = {
