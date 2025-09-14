@@ -49,6 +49,15 @@ export default class LoginPage extends Page {
         }
       }
     }),
+    signUpButton: new Button({
+      label: 'Нет аккаунта?',
+      className: "auth-page__register-link",
+      events: {
+          click: () => {
+            this.nextLink('/')
+          },
+      },
+    })
   };
 
   constructor() {
@@ -89,23 +98,28 @@ export default class LoginPage extends Page {
     }
   };
 
-  private async signIn(values : Record<string, string>) {
+  private async signIn(values: Record<string, string>) {
     try {
-      const response : {reason?:string} = await this.$api.post('https://ya-praktikum.tech/api/v2/auth/signin', {data: values})
-      
-      if(response.reason == 'User already in system') {
-        await this.setUserData()
-        this.nextLink('/mainPage')
-        await this.setUserData()
-      } else if(response.reason) {
-        throw new Error(response.reason);
+      const response: { reason?: string } = await this.$api.post(
+        'https://ya-praktikum.tech/api/v2/auth/signin',
+        { data: values }
+      );
+
+      if (response.reason) {
+        if (response.reason === 'User already in system') {
+          console.log('Пользователь уже авторизован');
+        } else {
+          throw new Error(response.reason);
+        }
       }
-      await this.setUserData()
-      this.getUserData()
-      this.nextLink('/mainPage')
-    } catch {
-      this.showError('Login or password is incorrect')
-    } 
+
+      await this.setUserData();
+      this.nextLink('/messenger');
+
+    } catch (err) {
+      this.showError('Login or password is incorrect');
+      console.error('Ошибка при логине:', err);
+    }
   }
 
   private async setUserData() {

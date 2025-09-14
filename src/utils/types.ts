@@ -91,3 +91,13 @@ export interface ChatUsersModalProps {
   onRemoveUser?: (chatId: number, userId: number) => void;
   [key: string]: unknown;
 }
+
+export interface ChatuserData {
+    id: number,
+    first_name: string,
+    second_name: string,
+    display_name: string,
+    login: string,
+    avatar: string,
+    role: string
+}

@@ -1,5 +1,5 @@
 import HTTPTransport from "../../utils/FetchAPI";
-import type { ChatData } from "../../utils/types";
+import type { ChatData, ChatuserData } from "../../utils/types";
 
 const $api = new HTTPTransport ();
 
@@ -25,7 +25,7 @@ export const getChatUsersApi = async (
 ): Promise<
   Array<{ id: number; first_name: string; second_name: string; login: string }>
 > => {
-  const res = await $api.get<any[]>(`https://ya-praktikum.tech/api/v2/chats/${chatId}/users`);
+  const res = await $api.get<ChatuserData[]>(`https://ya-praktikum.tech/api/v2/chats/${chatId}/users`);
   return res || [];
 };
 
@@ -44,7 +44,7 @@ export const addUserToChatApi = async (chatId: number, userId: number) => {
 
 
 export const searchUserApi = async (login: string) => {
-  const res = await $api.post<any[]>("https://ya-praktikum.tech/api/v2/user/search", {
+  const res = await $api.post<ChatuserData[]>("https://ya-praktikum.tech/api/v2/user/search", {
     data: { login },
   });
   return res || [];

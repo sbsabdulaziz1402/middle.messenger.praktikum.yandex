@@ -152,7 +152,8 @@ export default class EditProfilePage extends Page {
           if (avatarInput?.files?.[0]) {
             const avatarFormData = new FormData();
             avatarFormData.append("avatar", avatarInput.files[0]);
-            updateAvatar(avatarFormData);
+            const new_avatar = await updateAvatar(avatarFormData);
+            window.localStorage.setItem('userData', JSON.stringify(new_avatar))
           }
         }
       }

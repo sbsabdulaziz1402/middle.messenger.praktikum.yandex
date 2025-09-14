@@ -4,7 +4,6 @@ import Block from "../../utils/Block";
 import Button from "../../components/Button/button";
 import Input from "../../components/Input/input";
 import { validateField } from "../../utils/validation";
-import HTTPTransport from "../../utils/FetchAPI";
 export default class RegisterPage extends Page {
   private pageComponents: Record<string, Block> = {
     logInButton: new Button({
@@ -129,6 +128,15 @@ export default class RegisterPage extends Page {
           this.setValidate('password', e);
         }
       }
+    }),
+    loginButton: new Button({
+      label: 'Войти',
+      className: "auth-page__register-link",
+      events: {
+          click: () => {
+            this.nextLink('/')
+          },
+      },
     })
   };
 
@@ -171,10 +179,20 @@ export default class RegisterPage extends Page {
   };
 
   private async signUpPost(values : Record<string, string>) {
-    this.$api.post<{id: number}>('https://ya-praktikum.tech/api/v2/auth/signup', {data: values}).then((res)=>{
-      if(res.id != null) {
-        this.nextLink('/login')
+    const response = await this.$api.post<{id: number, reason: string | null}>('https://ya-praktikum.tech/api/v2/auth/signup', {data: values})
+    if (response.reason) {
+      if (response.reason === 'User already in system') {
+        console.log('Пользователь уже авторизован');
+      } else {
+        throw new Error(response.reason);
       }
-    })
+    }
+    await this.setUserData();
+    this.nextLink('/messenger');
+  }
+
+  private async setUserData() {
+    const data = await this.$api.get('https://ya-praktikum.tech/api/v2/auth/user')
+    window.localStorage.setItem('userData', JSON.stringify(data))
   }
 }

@@ -11,7 +11,7 @@
     "build": "vite build",
     "prebuild": "tsc --noEmit",
     "preview": "vite preview",
-    "start": "vite",
+    "start": "vite preview --port 3000",
     "lint": "eslint . --ext .ts,.js"
   },
   "devDependencies": {

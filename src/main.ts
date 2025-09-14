@@ -18,12 +18,12 @@ const routerCore = new Router('#app')
 
 
 routerCore
-  .use('/', NavigatorPage)
-  .use('/login', LoginPage)
-  .use('/register', RegisterPage)
-  .use('/mainPage', MainPage)
+  .use('/navigation', NavigatorPage)
+  .use('/', LoginPage)
+  .use('/sign-up', RegisterPage)
+  .use('/messenger', MainPage)
   .use('/profile', ProfilePage)
-  .use('/editProfile', EditProfilePage)
+  .use('/settings', EditProfilePage)
   .use('/404', Error404Page)
   .use('/500', Page500);
 
