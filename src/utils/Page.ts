@@ -2,8 +2,10 @@ import Block from "./Block";
 import { ErrorToast } from "./ErrorToast";
 import Router from "./Router";
 import HTTPTransport from "./FetchAPI";
+import type { Props } from "./Block";
 
-export default class Page extends Block {
+
+export default class Page<P extends Props = {}> extends Block<P> {
   private template: string;
   private context: Record<string, unknown>;
   private components: Record<string, Block> = {};
@@ -13,7 +15,7 @@ export default class Page extends Block {
 
   
   constructor(template: string, context: Record<string, unknown> = {}) {
-    super('main', context);
+    super('main', context as P);
     this.template = template;
     this.context = context;
     this.toast = new ErrorToast();

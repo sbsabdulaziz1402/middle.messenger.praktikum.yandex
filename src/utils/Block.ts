@@ -1,7 +1,7 @@
 import EventBus from "./eventBus";
 import Handlebars from "handlebars";
 import type { UserData } from "./types";
-type Props = Record<string, unknown>;
+export type Props = Record<string, unknown>;
 
 interface BlockEvents {
   [key: string]: unknown[];

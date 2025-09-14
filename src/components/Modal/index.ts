@@ -8,10 +8,12 @@ import "./style.scss";
 interface AddChatModalProps {
   onSave: (title: string) => void;
   onClose: () => void;
+  children?: Record<string, Block>;
   visible?: boolean;
+  [key: string]: unknown;
 }
 
-export class AddChatModal extends Page {
+export class AddChatModal extends Page<AddChatModalProps> {
   constructor(props: AddChatModalProps) {
     const children = {
       chatTitleInput: new Input({

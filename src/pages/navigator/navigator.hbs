@@ -1,10 +1,12 @@
 <nav class="navigator">
   <h1 class="navigator__title">Навигатор по страницам</h1>
   <ul class="navigator__list">
-    {{#each pages}}
       <li class="navigator__item">
-        <a class="navigator__link">{{this.name}}</a>
+        <div data-slot="loginLink"></div>
+        <div data-slot="registerLink"></div>
+        <div data-slot="messengerLink"></div>
+        <div data-slot="notFoundLink"></div>
+        <div data-slot="errorLink"></div>
       </li>
-    {{/each}}
   </ul>
 </nav>
