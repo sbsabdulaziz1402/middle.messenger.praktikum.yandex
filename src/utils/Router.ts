@@ -85,7 +85,11 @@ export default class Router {
 
     private _onRoute(pathname: string): void {
         const route = this.getRoute(pathname);
-
+        const authRoutes = ["/", "/sign-up"];
+        if(authRoutes.includes(pathname) && this.isAuthenticated()) {
+          this.go("/messenger");
+          return;
+        }
         if (!route) {
             return;
         }
@@ -99,9 +103,14 @@ export default class Router {
     }
 
     public go(pathname: string): void {
-        const privateRoutes = ["/mainPage", "/profile", "/editProfile"];
+        const privateRoutes = ["/messenger", "/profile", "/settings"];
+        const authRoutes = ["/", "/sign-up"];
         if(privateRoutes.includes(pathname) && !this.isAuthenticated()) {
-          this.go("/login");
+          this.go("/");
+          return;
+        } else if(authRoutes.includes(pathname) && this.isAuthenticated()) {
+
+          this.go("/messenger");
           return;
         }
         this.history.pushState({}, '', pathname);
