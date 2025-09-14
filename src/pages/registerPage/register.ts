@@ -4,7 +4,6 @@ import Block from "../../utils/Block";
 import Button from "../../components/Button/button";
 import Input from "../../components/Input/input";
 import { validateField } from "../../utils/validation";
-import HTTPTransport from "../../utils/FetchAPI";
 export default class RegisterPage extends Page {
   private pageComponents: Record<string, Block> = {
     logInButton: new Button({
