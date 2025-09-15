@@ -16,6 +16,7 @@ export interface InputProps {
     id?: string;
     value?: string;
     accept?:string;
+    pattern?: string;
     inputType?: "text" | "date" | "email" | "password" | "file";
     className?: string;
     wrapperClassName?: string;

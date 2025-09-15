@@ -162,10 +162,10 @@ export default class RegisterPage extends Page {
       });
 
       if (validationErrors.length === 0) {
-        this.signUpPost(values);
         console.log("Форма прошла валидацию ✅", values);
+        this.signUpPost(values);
       } else {
-        console.log("Форма не прошла валидацию ❌");
+        console.log("Форма не прошла валидацию ❌", values);
       }
     }
   }

@@ -54,7 +54,7 @@ export default class LoginPage extends Page {
       className: "auth-page__register-link",
       events: {
           click: () => {
-            this.nextLink('/')
+            this.nextLink('/sign-up')
           },
       },
     })

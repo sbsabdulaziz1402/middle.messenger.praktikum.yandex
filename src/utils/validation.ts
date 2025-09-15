@@ -8,7 +8,7 @@ const patterns: Record<string, RegExp> = {
   second_name: /^[A-ZА-Я][a-zа-я-]*$/,
   login: /^(?!\d+$)[A-Za-z0-9_-]{3,20}$/,
   email: /^[A-Za-z0-9._-]+@[A-Za-z]+\.[A-Za-z]+$/,
-  password: /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,40}$/,
+  password: /^(?=.*[A-Z])(?=.*\d).{8,40}$/,
   phone: /^\+?\d{10,15}$/,
   message: /^(?!\s*$).+$/,
 };
