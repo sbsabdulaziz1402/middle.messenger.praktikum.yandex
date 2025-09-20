@@ -16,7 +16,6 @@ import Router from './utils/Router';
 const routerCore = new Router('#app')
 
 
-
 routerCore
   .use('/navigation', NavigatorPage)
   .use('/', LoginPage)
