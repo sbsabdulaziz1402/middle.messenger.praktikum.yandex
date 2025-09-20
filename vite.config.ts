@@ -18,7 +18,7 @@ export default defineConfig({
     }
   },
   preview: {
-    port: 3000, // порт для vite preview
+    port: 3000,
   },
   css: {
     preprocessorOptions: {
