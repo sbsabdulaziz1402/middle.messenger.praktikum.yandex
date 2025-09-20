@@ -4,7 +4,7 @@ import path from 'path';
 export default tseslint.config(
   // Global ignores
   {
-    ignores: ['dist/**', 'node_modules/**', 'eslint.config.ts', 'vite.config.ts'],
+    ignores: ['dist/**', 'node_modules/**', 'eslint.config.ts', 'vite.config.ts', 'jest.config.ts', 'stylelint.config.ts'],
   },
 
   // TypeScript configuration

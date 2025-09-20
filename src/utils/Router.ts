@@ -44,7 +44,9 @@ class Route {
             throw new Error(`Root not found: ${this._rootQuery}`);
         }
         root.innerHTML = "";
-        root.appendChild(this._block.mount());
+        if(this._block.mount()) {
+            root.appendChild(this._block.mount());
+        }
     }
 }
 
