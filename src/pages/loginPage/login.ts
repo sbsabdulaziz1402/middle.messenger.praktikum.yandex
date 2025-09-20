@@ -4,6 +4,8 @@ import Block from "../../utils/Block";
 import Button from "../../components/Button/button";
 import Input from "../../components/Input/input";
 import { validateField } from "../../utils/validation";
+
+
 export default class LoginPage extends Page {
   private pageComponents: Record<string, Block> = {
     saveButton: new Button({
@@ -47,6 +49,15 @@ export default class LoginPage extends Page {
         }
       }
     }),
+    signUpButton: new Button({
+      label: 'Нет аккаунта?',
+      className: "auth-page__register-link",
+      events: {
+          click: () => {
+            this.nextLink('/sign-up')
+          },
+      },
+    })
   };
 
   constructor() {
@@ -56,20 +67,28 @@ export default class LoginPage extends Page {
 
   getFormData() {
     const form = document.getElementById('log-in-form') as HTMLFormElement;
-    if(form) {
-      const formData = new FormData(form)
+    if (form) {
+      const formData = new FormData(form);
       const values: Record<string, string> = {};
+      const validationErrors: string[] = [];
+
       formData.forEach((value, key) => {
         values[key] = value.toString();
         const errors = validateField(key, value.toString());
         if (!errors.isValid) {
-            this.showError(errors.error);
-        } else {
-          console.log("Форма прошла валидацию ✅", values);
+          validationErrors.push(errors.error);
+          this.showError(errors.error);
         }
       });
+
+      if (validationErrors.length === 0) {
+        this.signIn(values);
+        console.log("Форма прошла валидацию ✅", values);
+      } else {
+        console.log("Форма не прошла валидацию ❌");
+      }
     }
-  };
+  }
 
   private setValidate(inputName: string, event: Event): void {
     const target = event.target as HTMLInputElement;
@@ -78,4 +97,33 @@ export default class LoginPage extends Page {
       this.showError(errorData.error);
     }
   };
+
+  private async signIn(values: Record<string, string>) {
+    try {
+      const response: { reason?: string } = await this.$api.post(
+        'https://ya-praktikum.tech/api/v2/auth/signin',
+        { data: values }
+      );
+
+      if (response.reason) {
+        if (response.reason === 'User already in system') {
+          console.log('Пользователь уже авторизован');
+        } else {
+          throw new Error(response.reason);
+        }
+      }
+
+      await this.setUserData();
+      this.nextLink('/messenger');
+
+    } catch (err) {
+      this.showError('Login or password is incorrect');
+      console.error('Ошибка при логине:', err);
+    }
+  }
+
+  private async setUserData() {
+    const data = await this.$api.get('https://ya-praktikum.tech/api/v2/auth/user')
+    window.localStorage.setItem('userData', JSON.stringify(data))
+  }
 }

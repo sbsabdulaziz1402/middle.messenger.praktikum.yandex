@@ -26,12 +26,6 @@
     flex-direction: column;
   }
 
-  &__chat-header {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    background: #fafafa;
-  }
-
   &__messages {
     flex: 1;
     display: flex;
@@ -101,6 +95,10 @@
         line-height: 12px;
         text-align: right;
         color: variables.$color-gray-title;
+        border: none;
+        background: none;
+        width: fit-content;
+        cursor: pointer;
     }
     &__search-input, &__search-input:focus-visible {
         border:none;

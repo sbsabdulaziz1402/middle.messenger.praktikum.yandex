@@ -1,7 +1,7 @@
 import EventBus from "./eventBus";
 import Handlebars from "handlebars";
-
-type Props = Record<string, unknown>;
+import type { UserData } from "./types";
+export type Props = Record<string, unknown>;
 
 interface BlockEvents {
   [key: string]: unknown[];
@@ -11,7 +11,7 @@ interface BlockEvents {
   "flow:render": [];
 }
 
-export default class Block {
+export default class Block<P extends Props = {}> {
   static EVENTS: { [K in keyof BlockEvents]: K } = {
     init: "init",
     "flow:component-did-mount": "flow:component-did-mount",
@@ -20,11 +20,12 @@ export default class Block {
   };
 
   protected _element: HTMLElement | null = null;
-  protected _meta: { tagName: string; props: Props } | null = null;
-  public props: Props;
+  protected _meta: { tagName: string; props: P } | null = null;
+  public props: P;
   private _eventBus: EventBus<BlockEvents>;
+  protected user?: UserData
 
-  constructor(tagName: string = "div", props: Props = {}) {
+  constructor(tagName: string = "div", props: P) {
     const eventBus = new EventBus<BlockEvents>();
 
     this._meta = { tagName, props };
@@ -33,6 +34,7 @@ export default class Block {
 
     this._registerEvents(eventBus);
     eventBus.emit(Block.EVENTS.init);
+    this.getUserData()
   }
 
   protected _registerEvents(eventBus: EventBus<BlockEvents>): void {
@@ -75,13 +77,9 @@ export default class Block {
     return true;
   }
 
-  protected setProps(nextProps: Props): void {
+  public setProps(nextProps: Props): void {
     if (!nextProps) return;
     Object.assign(this.props, nextProps);
-  }
-
-  protected get element(): HTMLElement | null {
-    return this._element;
   }
 
   private _render(): void {
@@ -92,6 +90,11 @@ export default class Block {
       this.addEvents();
     }
   }
+
+  protected get element(): HTMLElement | null {
+    return this._element;
+  }
+
 
   protected render(): HTMLElement {
     this._removeEvents();
@@ -111,7 +114,17 @@ export default class Block {
     return this.element;
   }
 
-  private _makePropsProxy(props: Props): Props {
+  protected getUserData() {
+    const userDataStr = window.localStorage.getItem('userData');
+    if (userDataStr) {
+      this.user = JSON.parse(userDataStr) as UserData;
+      return this.user
+    } else {
+      return {}
+    }
+  }
+
+  private _makePropsProxy(props: P): P {
     const self = this;
 
     return new Proxy(props, {
@@ -150,6 +163,9 @@ export default class Block {
         this._element?.addEventListener(eventName, events[eventName]);
       });
     }
+  }
+  public leave() {
+    this._element?.remove();
   }
 
   private _removeEvents() {

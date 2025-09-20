@@ -1,14 +1,21 @@
-import Handlebars from "handlebars";
 import Block from "./Block";
 import { ErrorToast } from "./ErrorToast";
-export default class Page extends Block {
+import Router from "./Router";
+import HTTPTransport from "./FetchAPI";
+import type { Props } from "./Block";
+
+
+export default class Page<P extends Props = {}> extends Block<P> {
   private template: string;
   private context: Record<string, unknown>;
   private components: Record<string, Block> = {};
   protected toast: ErrorToast;
+  protected $api = new HTTPTransport();
+  private router = new Router('#app');
 
+  
   constructor(template: string, context: Record<string, unknown> = {}) {
-    super('main')
+    super('main', context as P);
     this.template = template;
     this.context = context;
     this.toast = new ErrorToast();
@@ -29,32 +36,31 @@ export default class Page extends Block {
     }
   }
 
-  mount(rootSelector: string) {
-    const root = document.querySelector(rootSelector);
-    if (!root) throw new Error(`Root "${rootSelector}" not found`);
+  protected nextLink(link: string) {
+    this.router.go(link);
+  }
 
-    const html = Handlebars.compile(this.template)(this.context);
-    root.innerHTML = html;
-
+  public mount(): HTMLElement {
+    const page = this.compile(this.template, this.context);
     Object.entries(this.components).forEach(([slot, comp]) => {
       const target =
-        root.querySelector<HTMLElement>(`[data-slot="${slot}"]`) ||
-        root.querySelector<HTMLElement>(`#${slot}`);
+        page.querySelector<HTMLElement>(`[data-slot="${slot}"]`) ||
+        page.querySelector<HTMLElement>(`#${slot}`);
 
       if (!target) {
-        console.warn(`Slot "${slot}" not found on page`);
         return;
       }
 
-      const content = comp.getContent()
-
-      if(content){
-          target.replaceWith(content);
+      const content = comp.getContent();
+      if (content) {
+        target.replaceWith(content);
       }
-      
+
       comp.dispatchComponentDidMount?.();
     });
-  };
+    this.dispatchComponentDidMount();
+    return page;
+  }
 
   showError(message: string) {
     this.toast.show({ message });

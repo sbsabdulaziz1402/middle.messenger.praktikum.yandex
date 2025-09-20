@@ -27,6 +27,10 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            button{
+                border: none;
+                background: none;
+            }
         }
     }
 }
@@ -36,6 +40,7 @@
         height: 130px;
         width: 130px;
         border-radius: 50%;
+        overflow: hidden;
         background-color: #EFEFEF;
     }
     &__title {
@@ -80,6 +85,9 @@
 
     &__link {
         text-decoration: none;
+        border: none;
+        background: none;
+        cursor: pointer;
         &-edit {
             color: variables.$color-primary;
         }

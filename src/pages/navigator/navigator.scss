@@ -13,11 +13,15 @@
 
   &__item {
     margin-bottom: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
 
   &__link {
     text-decoration: none;
     color: #007aff;
+    cursor: pointer;
 
     &:hover {
       text-decoration: underline;

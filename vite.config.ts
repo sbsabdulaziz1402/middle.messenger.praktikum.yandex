@@ -8,7 +8,17 @@ export default defineConfig({
     }),
   ],
   server: {
-    port: 3000, // ставь свой порт
+    port: 3000,
+    proxy: {
+      '/api': {
+        target: 'http://ya-praktikum.tech',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '') 
+      }
+    }
+  },
+  preview: {
+    port: 3000, // порт для vite preview
   },
   css: {
     preprocessorOptions: {

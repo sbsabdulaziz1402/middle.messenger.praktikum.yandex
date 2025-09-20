@@ -1,11 +1,11 @@
-<li class="chat-item">
-    <div class="chat-item__avatar">
-        {{#if avatar}}
-            <img src="{{avatar}}" alt="None">
-        {{/if}}
-    </div>
-    <div class="chat-item__context">
-        <span class="chat-item__name">{{name}}</span>
-        <span class="chat-item__last">{{last_message}}</span>
-    </div>
+<li class="chat-item chat-item__wrapper {{#if isSelected}} __active  {{/if}}">
+  <div class="chat-item__avatar">
+    {{#if avatar}}
+      <img src="{{avatar}}" alt="Avatar">
+    {{/if}}
+  </div>
+  <div class="chat-item__context">
+    <div class="chat-item__name">{{title}}</div>
+    <div class="chat-item__last">{{last_message.content}}</div>
+  </div>
 </li>

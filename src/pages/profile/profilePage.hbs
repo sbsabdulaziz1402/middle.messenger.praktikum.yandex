@@ -1,48 +1,50 @@
 <main class="profile">
   <aside class="profile__sidebar">
     <div class="profile__sidebar-icon">
-        <img src="RiArrowLeftLine.svg" alt="back">
+        <div data-slot="returnButton"></div>
     </div>
   </aside>
 
   <section class="profile__content profile-content">
     <div class="profile-content__header">
-        <div class="profile-content__icon"></div>
-        <h3 class="profile-content__title">{{username}}</h3>
+        <div class="profile-content__icon">
+          <img src="{{avatar}}" alt="" width="100%" height="100%">
+        </div>
+        <h3 class="profile-content__title">{{login}}</h3>
     </div>
-
+    
     <div class="profile-content__info">
         <div class="profile-content__row">
           <span class="profile-content__label">Почта</span>
-          <span class="profile-content__value">pochta@yandex.ru</span>
+          <span class="profile-content__value">{{email}}</span>
         </div>
         <div class="profile-content__row">
           <span class="profile-content__label">Логин</span>
-          <span class="profile-content__value">ivanivanov</span>
+          <span class="profile-content__value">{{login}}</span>
         </div>
         <div class="profile-content__row">
           <span class="profile-content__label">Имя</span>
-          <span class="profile-content__value">Иван</span>
+          <span class="profile-content__value">{{first_name}}</span>
         </div>
         <div class="profile-content__row">
           <span class="profile-content__label">Фамилия</span>
-          <span class="profile-content__value">Иванов</span>
+          <span class="profile-content__value">{{last_name}}</span>
         </div>
         <div class="profile-content__row">
           <span class="profile-content__label">Имя в чате</span>
-          <span class="profile-content__value">Иван</span>
+          <span class="profile-content__value">{{display_name}}</span>
         </div>
         <div class="profile-content__row">
           <span class="profile-content__label">Телефон</span>
-          <span class="profile-content__value">+7 (909) 967 30 30</span>
+          <span class="profile-content__value">+{{phone}}</span>
         </div>
     </div>
     <div class="profile-content__actions">
         <div class="profile-content__row">
-        <a href="/editProfile" class="profile-content__link profile-content__link-edit">Изменить данные</a>
+          <div data-slot="editButton"></div>
         </div>
         <div class="profile-content__row">
-            <a href="#" class="profile-content__link profile-content__link-logout">Выйти</a>
+          <div data-slot="logoutButton"></div>
         </div>
     </div>
   </section>

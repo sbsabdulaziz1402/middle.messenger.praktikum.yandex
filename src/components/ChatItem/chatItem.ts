@@ -1,18 +1,19 @@
 import Block from "../../utils/Block";
 import template from "./chatItem.hbs";
 import "./chatItem.scss";
-import Component from "../../utils/types";
+import type { ChatData } from "../../utils/types";
 
 export default class ChatItem extends Block {
-    constructor(props: Component) {
-        super("li", {
-            disabled: false, 
-            ...props
-        });
-    };
+  constructor(props: ChatData & { onClick?: () => void } ) {
+    super("li", {
+      ...props,
+      events: {
+        click: props.onClick
+      }
+    });
+  }
 
-    render() {
-        return super.compile(template.toString(), this.props)
-    };
-
-};
+  render() {
+    return this.compile(template.toString(), this.props);
+  }
+}

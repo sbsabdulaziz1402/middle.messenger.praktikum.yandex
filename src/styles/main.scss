@@ -12,14 +12,19 @@ body {
   background: #ffffff;
 }
 
+ul {
+padding: 0;
+}
+
 .form {
   &__button {
     background-color: variables.$color-primary;
     border-radius: 8px;
     color: #ffffff;
     height: 37px;
+    width: 100%;
     border: 0;
-    margin-top: 40px;
+    // margin-top: 40px;
   }
 
   &__input, &__input:focus-visible {
