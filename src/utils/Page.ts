@@ -21,7 +21,7 @@ export default class Page<P extends Props = {}> extends Block<P> {
     this.toast = new ErrorToast();
   }
 
-  protected initComponents(components: Record<string, Block>  = {}) {
+  public initComponents(components: Record<string, Block>  = {}) {
     this.components = components;
     if(components) {
         Object.entries(components).forEach(([key, value]) => {
@@ -41,7 +41,10 @@ export default class Page<P extends Props = {}> extends Block<P> {
   }
 
   public mount(): HTMLElement {
-    const page = this.compile(this.template, this.context);
+    let page = this.compile(this.template, this.context);
+    if (!page) {
+      page = document.createElement("div");
+    }
     Object.entries(this.components).forEach(([slot, comp]) => {
       const target =
         page.querySelector<HTMLElement>(`[data-slot="${slot}"]`) ||
